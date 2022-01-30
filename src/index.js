@@ -30,6 +30,24 @@ function caluculateWinner(squares) {
   return null;
 }
 
+function makeCoordinate(nth) {
+  const n = nth + 1;
+  let col, row;
+  if (n % 3 === 0) {
+    col = 3
+  } else {
+    col = n % 3
+  }
+  if (n <= 3) {
+    row = 1
+  } else if (n <= 6) {
+    row = 2
+  } else {
+    row = 3
+  }
+  return [col, row];
+}
+
 class Board extends React.Component {
   renderSquare(i) {
     return(
@@ -68,7 +86,8 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
+        newMove: Array(2).fill(null)
       }],
       stepNumber: 0,
       xIsNext: true
@@ -85,7 +104,8 @@ class Game extends React.Component {
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
+        newMove: makeCoordinate(i)
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext
@@ -106,7 +126,7 @@ class Game extends React.Component {
 
     const move = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
+        'Go to move #' + move + ' (' +  history[move].newMove + ')' :
         'Go to game start';
       return (
        <li key={move}>
