@@ -31,21 +31,13 @@ function caluculateWinner(squares) {
 }
 
 function makeCoordinate(nth) {
-  const n = nth + 1;
-  let col, row;
-  if (n % 3 === 0) {
-    col = 3
-  } else {
-    col = n % 3
-  }
-  if (n <= 3) {
-    row = 1
-  } else if (n <= 6) {
-    row = 2
-  } else {
-    row = 3
-  }
-  return [col, row];
+  const coordinates = [
+    [1, 1], [2, 1], [3, 1],
+    [1, 2], [2, 2], [3, 2],
+    [1, 3], [2, 3], [3, 3]
+  ]
+
+  return coordinates[nth];
 }
 
 class Board extends React.Component {
@@ -130,7 +122,12 @@ class Game extends React.Component {
         'Go to game start';
       return (
        <li key={move}>
-        <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        <button
+          onClick={() => this.jumpTo(move)}
+          style={{ fontWeight: move === this.state.stepNumber ? 'bold' : 'normal' }}
+        >
+         {desc}
+        </button>
        </li>
       );
     });
