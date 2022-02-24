@@ -84,7 +84,8 @@ class Game extends React.Component {
         newMove: Array(2).fill(null)
       }],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      desc: false
     };
   }
 
@@ -113,6 +114,12 @@ class Game extends React.Component {
     });
   }
 
+  switchOrder() {
+    this.setState({
+      desc: !this.state.desc
+    });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -123,14 +130,14 @@ class Game extends React.Component {
         'Go to move #' + move + ' (' +  history[move].newMove + ')' :
         'Go to game start';
       return (
-       <li key={move}>
-        <button
-          onClick={() => this.jumpTo(move)}
-          style={{ fontWeight: move === this.state.stepNumber ? 'bold' : 'normal' }}
-        >
-         {desc}
-        </button>
-       </li>
+        <li key={move}>
+         <button
+           onClick={() => this.jumpTo(move)}
+           style={{ fontWeight: move === this.state.stepNumber ? 'bold' : 'normal' }}
+         >
+          {desc}
+         </button>
+        </li>
       );
     });
 
@@ -140,6 +147,16 @@ class Game extends React.Component {
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
+
+    const checkbox =
+      < >
+        <input
+          onClick={()=> this.switchOrder()}
+          type="checkbox"
+          name="desc"
+        />
+        <label htmlFor="desc">desc</label>
+      </>;
 
     return (
       <div className="game">
@@ -151,7 +168,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{move}</ol>
+          <ol>{this.state.desc ? move.reverse() : move}</ol>
+          <div>{checkbox}</div>
         </div>
       </div>
     );
