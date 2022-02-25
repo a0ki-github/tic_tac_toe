@@ -154,8 +154,10 @@ class Game extends React.Component {
     let status;
     if (result) {
       status = 'Winner: ' + result.winner;
-    } else {
+    } else if(current.squares.includes(null)) {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    } else {
+      status = 'Draw'
     }
 
     const checkbox =
