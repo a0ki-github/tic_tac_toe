@@ -4,7 +4,11 @@ import './index.css';
 
 function Square(props) {
  return (
-  <button className="square" onClick={props.onClick}>
+  <button
+    className="square"
+    onClick={props.onClick}
+    style={{backgroundColor: props.backgroundColor}}
+  >
     {props.value}
   </button>
  );
@@ -45,10 +49,13 @@ function makeCoordinate(nth) {
 
 class Board extends React.Component {
   renderSquare(i) {
+    const result = caluculateResult(this.props.squares)
+
     return(
       <Square
         key={i}
         value={this.props.squares[i]}
+        backgroundColor={ result && result.line.includes(i) ? 'yellow' : 'transparent' }
         onClick={() => this.props.onClick(i)}
       />
     );
